@@ -19,6 +19,12 @@ function p(className: string, children: Node[]|string): Node {
     return element("p", className, children);
 }
 
+function img(url: string): Node {
+    let img: HTMLImageElement = <HTMLImageElement>element("img", "", "");
+    img.setAttribute("src", url);
+    return img;
+}
+
 function input(type: string, className: string, value: string = ""): Node {
     let input: HTMLInputElement = <HTMLInputElement>element("input", className, "");
     input.setAttribute("type", type);
@@ -37,5 +43,6 @@ export {
     div,
     p,
     style,
+    img,
     input
 };

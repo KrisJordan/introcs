@@ -8,5 +8,6 @@
   },
   "author": "Kris Jordan",
   "license": "AGPL-3.0",
-  "typings": "./types.d.ts"
+  "typings": "./types.d.ts",
+  "dependencies": {}
 }

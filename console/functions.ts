@@ -5,20 +5,36 @@ function print(s: Printable): void {
     ConsoleProvider.instance().print(s);
 }
 
-function askForNumber(prompt: string, cb: (value: number) => void): void {
-    ConsoleProvider.instance().askForNumber(prompt, cb);
+function image(url: string): void {
+    ConsoleProvider.instance().image(url);
 }
 
-function askForString(prompt: string, cb: (value: string) => void): void {
-    ConsoleProvider.instance().askForString(prompt, cb);
+function promptNumber(prompt: string, cb: (value: number) => void): void {
+    ConsoleProvider.instance().promptNumber(prompt, cb);
 }
 
-function askForBoolean(prompt: string, cb: (value: boolean) => void): void {
-    ConsoleProvider.instance().askForBoolean(prompt, cb);
+function promptString(prompt: string, cb: (value: string) => void): void {
+    ConsoleProvider.instance().promptString(prompt, cb);
+}
+
+function promptBoolean(prompt: string, cb: (value: boolean) => void): void {
+    ConsoleProvider.instance().promptBoolean(prompt, cb);
 }
 
 function clear(): void {
     ConsoleProvider.instance().clear();
 }
 
-export = {print, clear, askForNumber, askForString, askForBoolean};
+function error(e: Error): void {
+    ConsoleProvider.instance().error(e);
+}
+
+export = {
+    print,
+    image,
+    clear,
+    promptNumber,
+    promptString,
+    promptBoolean,
+    error
+};

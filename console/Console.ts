@@ -2,10 +2,12 @@ import Printable from "./Printable";
 
 interface Console {
     print(s: Printable): void;
-    askForNumber(prompt: string, cb: (value: number) => void): void;
-    askForString(prompt: string, cb: (value: string) => void): void;
-    askForBoolean(prompt: string, cb: (value: boolean) => void): void;
+    image(url: string): void;
+    promptNumber(prompt: string, cb: (value: number) => void): void;
+    promptString(prompt: string, cb: (value: string) => void): void;
+    promptBoolean(prompt: string, cb: (value: boolean) => void): void;
     clear(): void;
+    error(e: Error): void;
 }
 
 export default Console;
