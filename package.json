@@ -1,13 +1,13 @@
 {
   "name": "introcs",
-  "version": "0.0.1",
-  "description": "Introduction to Computer Science",
-  "main": "index.js",
+  "version": "0.0.5",
+  "description": "Library to Support IntroCS",
+  "main": "./index.js",
+  "types": "./index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc src/index.ts --declaration --allowJs --outDir lib/"
   },
   "author": "Kris Jordan",
   "license": "AGPL-3.0",
-  "typings": "./types.d.ts",
   "dependencies": {}
 }

@@ -1,7 +1,5 @@
 import Printable from "./Printable";
 
-import "./globals";
-
 declare global {
     function print(value: Printable): void;
     function image(url: string): void;
@@ -15,10 +13,6 @@ declare global {
     interface Function {
         name: string;
     }
-
-    function mapStackTrace(
-        stack: string | undefined, 
-        handler: (s:string[]) => void
-    ): void;
-    
 }
+
+import "./globals";
