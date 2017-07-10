@@ -5,7 +5,7 @@
   "main": "./index.js",
   "types": "./index",
   "scripts": {
-    "build": "tsc src/index.ts --declaration --allowJs --outDir lib/"
+    "build": "tsc -p ./src --outDir ./"
   },
   "author": "Kris Jordan",
   "license": "AGPL-3.0",
