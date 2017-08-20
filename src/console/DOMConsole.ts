@@ -120,7 +120,7 @@ class DOMConsole implements Console {
     }
 
     private scrollBottom() {
-       setTimeout(() => window.scrollTo(0, (<HTMLElement>this._el.children[this._el.childElementCount - 1]).offsetTop), 20);
+       setTimeout(() => window.scrollTo(0, (<HTMLElement>this._el.children[this._el.childElementCount - 1]).offsetTop), 1);
     }
 
 }

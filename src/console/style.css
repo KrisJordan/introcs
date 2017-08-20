@@ -102,3 +102,28 @@ body {
 .ask.valid .submit {
     background: #99badd;
 }
+
+@media only screen 
+and (max-device-width : 420px) {
+    .type {
+        display: none;
+    }
+
+    .print, .ask, .image, .error {
+        margin: 0 3%;
+        padding: 12px 0;
+    }
+
+    .print .value, .ask .prompt {
+        font-weight: normal;
+        font-size: 18px;
+    }
+
+    .ask .value {
+        font-size: 20px;
+    }
+
+    .ask .submit {
+        font-size: 18px;
+    }
+}
