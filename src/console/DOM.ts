@@ -1,10 +1,10 @@
-function element(tag: string, className: string, children: Node[]|string): Node {
+function element(tag: string, className: string, children: Node[]|string|null): Node {
     let element = document.createElement(tag);
     if (Array.isArray(children)) {
         for (let child of children) {
             element.appendChild(child);
         }
-    } else {
+    } else if (children !== null) {
         element.innerText = children;
     }
     element.setAttribute("class", className);
@@ -20,29 +20,21 @@ function p(className: string, children: Node[]|string): Node {
 }
 
 function img(url: string): Node {
-    let img: HTMLImageElement = <HTMLImageElement>element("img", "", "");
+    let img: HTMLImageElement = <HTMLImageElement>element("img", "", null);
     img.setAttribute("src", url);
     return img;
 }
 
 function input(type: string, className: string, value: string = ""): Node {
-    let input: HTMLInputElement = <HTMLInputElement>element("input", className, "");
+    let input: HTMLInputElement = <HTMLInputElement>element("input", className, null);
     input.setAttribute("type", type);
     input.setAttribute("value", value);
     return input;
 }
 
-function style(css: string) {
-    let element = document.createElement("style");
-    element.setAttribute("type", "text/css")
-    element.appendChild(document.createTextNode(css));
-    return element;
-}
-
 export {
     div,
     p,
-    style,
     img,
     input
 };

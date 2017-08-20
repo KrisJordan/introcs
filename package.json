@@ -1,11 +1,11 @@
 {
   "name": "introcs",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "Library to Support IntroCS",
   "main": "./index.js",
   "types": "./index",
   "scripts": {
-    "build": "tsc -p ./src --outDir ./"
+    "build": "cp ./src/console/style.css ./console/ && tsc -p ./src --outDir ./"
   },
   "author": "Kris Jordan",
   "license": "AGPL-3.0",

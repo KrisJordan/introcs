@@ -1,5 +1,5 @@
 import Console from "./Console";
-import {div, style, img} from "./DOM";
+import {div, img} from "./DOM";
 import Printable from "./Printable";
 import TextInput from "./TextInput";
 import primitive from "./Printable";
@@ -16,7 +16,6 @@ class DOMConsole implements Console {
             this._el = document.createElement("div");
             document.getElementsByTagName("body")[0].appendChild(this._el);
         }
-        (<HTMLElement>this._el.parentElement).appendChild(this.styles());
     }
 
     error(e: Error): void {
@@ -117,107 +116,12 @@ class DOMConsole implements Console {
 
     private append(el: Node): void {
         this._el.appendChild(el);
+        this.scrollBottom();
     }
 
     private scrollBottom() {
-       setTimeout(() => window.scrollTo(0, (<HTMLElement>this._el.children[this._el.childElementCount - 1]).offsetTop), 0);
+       setTimeout(() => window.scrollTo(0, (<HTMLElement>this._el.children[this._el.childElementCount - 1]).offsetTop), 20);
     }
-
-    private styles() {
-        return style(`
-        
-            .print, .ask, .image, .error {
-                margin: 0 5%;
-                padding: 16px 0;
-                border-bottom: 1px solid whitesmoke;
-            }
-
-            /** ERROR */
-            .error .message {
-                font-size: 20px;
-                color: #ff0033;
-                font-weight: bold;
-            }
-
-            .error .help {
-                font-size: 14px;
-                margin-top: 8px;
-            }
-
-            /** IMAGE */
-            .image img {
-                max-width: 100%;
-                max-height: 360px;
-            }
-
-            /** PRINT */
-
-            .print .value {
-                font-weight: normal;
-                font-size: 20px;
-            }
-
-            .print .type {
-                font-size: 10px;
-            }
-
-            /** ASK */
-            .ask .prompt {
-                font-weight: normal;
-                font-size: 20px;
-            }
-
-            .ask .type {
-                font-size: 10px;
-            }
-
-            .ask .value {
-                font-size: 24px;
-                font-weight: bold;
-                border: none;
-                border-bottom: 1px solid black;
-                width: calc(100% - 60px);
-                margin-top: 8px;
-            }
-
-            .ask.submitted {
-                color: #999;
-            }
-
-            .ask.submitted .value {
-                background: white;
-                border-bottom: 1px solid #999;
-            }
-
-            .ask.submitted .submit {
-                background: #999;
-            }
-
-            .ask.valid .value {
-                border-bottom: 1px solid #99badd;
-            }
-
-            .ask .value:focus {
-                outline-width: 0;
-            }
-
-            .ask .submit {
-                border-radius: 8px;
-                background: #999;
-                border: 1px solid #999;
-                font-size: 24px;
-                color: white;
-                padding: 8px;
-                float: right;
-                disabled: true;
-            }
-
-            .ask.valid .submit {
-                background: #99badd;
-            }
-        `);
-    }
-
 
 }
 

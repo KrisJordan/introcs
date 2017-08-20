@@ -1,3 +1,4 @@
+import "./style.css";
 import Printable from "./Printable";
 
 declare global {
