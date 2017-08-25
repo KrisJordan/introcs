@@ -1,4 +1,5 @@
 import ConsoleProvider from "./ConsoleProvider";
+import Console from "./Console";
 import Printable from "./Printable";
 
 function print(s: Printable): void {
@@ -29,6 +30,10 @@ function error(e: Error): void {
     ConsoleProvider.instance().error(e);
 }
 
+function setConsole(console: Console): void {
+    ConsoleProvider.setConsole(console);
+}
+
 export = {
     print,
     image,
@@ -36,5 +41,6 @@ export = {
     promptNumber,
     promptString,
     promptBoolean,
-    error
+    error,
+    setConsole
 };
