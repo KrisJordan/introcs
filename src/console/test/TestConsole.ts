@@ -2,6 +2,7 @@ import Console from "../Console";
 import Printable from "../Printable";
 import Session from "./Session";
 import Print from "./methods/Print";
+import Image from "./methods/Image";
 
 class TestConsole implements Console {
 
@@ -28,7 +29,9 @@ class TestConsole implements Console {
     }
 
     image(url: string): void {
-
+        let methodCall: Image = new Image(url);
+        this._actual.log(methodCall);
+        this._expected.log(methodCall);
     }
 
     promptNumber(prompt: string, cb: (value: number) => void): void {
