@@ -11,6 +11,8 @@ declare global {
     
     function clear(): void;
 
+    function random(floor: number, ceiling: number): number;
+
     interface Function {
         name: string;
     }

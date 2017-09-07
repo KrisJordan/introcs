@@ -85,6 +85,11 @@ class DOMConsole implements Console {
         }
     }
 
+    random(floor: number, ceiling: number): number {
+        let delta: number = Math.random() * (ceiling - floor + 1);
+        return Math.floor(floor + delta);
+    }
+
     private getType(value: Printable): string {
         let type: string = "";
         if (typeof value === "string") {

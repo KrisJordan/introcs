@@ -50,6 +50,10 @@ class TestConsole implements Console {
 
     }
 
+    random(floor: number, ceiling: number): number {
+        return 0;
+    }
+
     error(e: Error): void {
 
     }

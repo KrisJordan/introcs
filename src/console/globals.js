@@ -1,4 +1,4 @@
-let {print, image, clear, promptNumber, promptBoolean, promptString, error, setConsole} = require("./functions");
+let {print, image, clear, random, promptNumber, promptBoolean, promptString, error, setConsole} = require("./functions");
 
 if (typeof window != "undefined") {
     window.print = print;
@@ -7,6 +7,7 @@ if (typeof window != "undefined") {
     window.promptBoolean = promptBoolean;
     window.promptString = promptString;
     window.clear = clear;
+    window.random = random;
     window.setConsole = setConsole;
     window.addEventListener("error", error);
 } else if (typeof global != "undefined") {
@@ -16,6 +17,7 @@ if (typeof window != "undefined") {
     global.promptBoolean = promptBoolean;
     global.promptString = promptString;
     global.clear = clear;
+    global.random = random;
     global.setConsole = setConsole;
 }
 

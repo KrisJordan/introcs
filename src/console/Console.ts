@@ -7,6 +7,7 @@ interface Console {
     promptString(prompt: string, cb: (value: string) => void): void;
     promptBoolean(prompt: string, cb: (value: boolean) => void): void;
     clear(): void;
+    random(floor: number, ceiling: number): number;
     error(e: Error): void;
 }
 
