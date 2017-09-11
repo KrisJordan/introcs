@@ -1,21 +1,63 @@
-import MethodCall from "./methods/MethodCall";
+import FunctionCall from "./functions/FunctionCall";
+import OutOfCallsException from "./OutOfCallsException";
+
+export interface Predicate<T> {
+    (f: T): boolean;
+}
 
 class Session {
 
-    private _calls: MethodCall[];
+    private _calls: FunctionCall[];
     private _t: number;
+    private _ignore: Predicate<FunctionCall>;
 
     public constructor() {
         this._t = 0;
         this._calls = [];
+        this._ignore = () => false;
     }
 
-    log(call: MethodCall): void {
-        this._calls.push(call);
+    /**
+     * Returns true if the call was not ignored. False otherwise.
+     * This distinction is useful when comparing actual versus expected
+     * in TestConsole. You do not want to test actual versus an ignored line.
+     */
+    log(call: FunctionCall): boolean {
+        if (!this._ignore(call)) {
+            this._calls.push(call);
+            return true;
+        }
+        return false;
     }
 
-    get calls(): MethodCall[] {
+    get calls(): FunctionCall[] {
         return this._calls;
+    }
+
+    set ignore(filter: Predicate<FunctionCall>) {
+        this._ignore = filter;
+    }
+
+    hasNext(): boolean {
+        return this._t < this._calls.length;
+    }
+
+    next(): FunctionCall {
+        return this._calls[this._t++];
+    }
+
+    test(actual: FunctionCall): FunctionCall {
+        if (this.hasNext()) {
+            let expected: FunctionCall = this.next();
+            expected.test(actual);
+            return expected;
+        } else {
+            throw new OutOfCallsException(actual);
+        }
+    }
+
+    contains(test: Predicate<FunctionCall>): boolean {
+        return this._calls.some(test);
     }
 
 }

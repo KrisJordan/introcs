@@ -1,6 +1,6 @@
-import MethodCall from "./MethodCall";
+import FunctionCall from "./FunctionCall";
 
-class Image extends MethodCall {
+class Image extends FunctionCall {
 
     private _url: string;
 
@@ -13,11 +13,15 @@ class Image extends MethodCall {
         return this._url;
     }
 
+    toString(): string {
+        return "image(\"" + this._url + "\")";
+    }
+
     print(): void {
 
     }
 
-    test(actual: MethodCall): void {
+    test(actual: FunctionCall): void {
 
     }
 
