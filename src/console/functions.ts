@@ -1,6 +1,7 @@
 import ConsoleProvider from "./ConsoleProvider";
 import Console from "./Console";
 import Printable from "./Printable";
+import Classname from "./Classname";
 
 function print(s: Printable): void {
     ConsoleProvider.instance().print(s);
@@ -20,6 +21,10 @@ function promptString(prompt: string, cb: (value: string) => void): void {
 
 function promptBoolean(prompt: string, cb: (value: boolean) => void): void {
     ConsoleProvider.instance().promptBoolean(prompt, cb);
+}
+
+function promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void {
+    ConsoleProvider.instance().promptCSV(prompt, classname, cb);
 }
 
 function clear(): void {
@@ -46,6 +51,7 @@ export = {
     promptNumber,
     promptString,
     promptBoolean,
+    promptCSV,
     error,
     setConsole
 };

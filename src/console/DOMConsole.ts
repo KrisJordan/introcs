@@ -2,7 +2,9 @@ import Console from "./Console";
 import {div, img} from "./DOM";
 import Printable from "./Printable";
 import TextInput from "./TextInput";
+import CSVInput from "./CSVInput";
 import primitive from "./Printable";
+import Classname from "./Classname";
 
 class DOMConsole implements Console {
 
@@ -38,7 +40,6 @@ class DOMConsole implements Console {
 
     image(url: string): void {
         let imgElement: HTMLImageElement = <HTMLImageElement>img(url);
-        imgElement.onload = (e) => this.scrollBottom();
         this.append(
             div("image", [
                 imgElement
@@ -58,7 +59,7 @@ class DOMConsole implements Console {
             return value !== "";
         };
         this.ask(prompt, "string", validator, parser, cb);
-    };
+    }
 
     promptBoolean(prompt: string, cb: (value: boolean) => void): void {
         let regex = /^true|false$/i;
@@ -71,7 +72,12 @@ class DOMConsole implements Console {
         };
         let validator = (value: string) => regex.test(value);
         this.ask(prompt, "boolean", validator, parser, cb);
-    };
+    }
+
+    promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void {
+        let control = new CSVInput(prompt, classname, cb);
+        this.append(control.dom);
+    }
 
     private ask(prompt: string, type: string, validator: (value: primitive) => boolean, parser: (value: string) => primitive, cb: (value: primitive) => void): void {
         let control = new TextInput(prompt, type, validator, parser, cb);
@@ -121,17 +127,16 @@ class DOMConsole implements Console {
 
     private append(el: Node): void {
         this._el.appendChild(el);
-        this.scrollBottom();
     }
 
-    private scrollBottom() {
-        setTimeout(() => {
-            let el: HTMLElement = <HTMLElement>this._el.children[this._el.childElementCount - 1]
-            if (el && el.offsetTop) {
-                window.scrollTo(0, el.offsetTop);
-            }
-        }, 1);
-    }
+    // private scrollBottom() {
+    //     setTimeout(() => {
+    //         let el: HTMLElement = <HTMLElement>this._el.children[this._el.childElementCount - 1]
+    //         if (el && el.offsetTop) {
+    //             window.scrollTo(0, el.offsetTop);
+    //         }
+    //     }, 1);
+    // }
 
 }
 

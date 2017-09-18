@@ -7,6 +7,7 @@ import PromptNumber from "./functions/PromptNumber";
 import PromptBoolean from "./functions/PromptBoolean";
 import Image from "./functions/Image";
 import Clear from "./functions/Clear";
+import Classname from "../Classname";
 
 class TestConsole implements Console {
 
@@ -69,6 +70,10 @@ class TestConsole implements Console {
         if (this._actual.log(functionCall) && this._testing) {
             this._expected.test(functionCall);
         }
+    }
+
+    promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void {
+
     }
 
     clear(): void {
