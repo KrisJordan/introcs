@@ -10,6 +10,7 @@ interface Console {
     promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void;
     clear(): void;
     random(floor: number, ceiling: number): number;
+    setInterval(cb: () => void, duration: number): number;
     error(e: Error): void;
 }
 

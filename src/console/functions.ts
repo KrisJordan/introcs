@@ -39,6 +39,10 @@ function error(e: Error): void {
     ConsoleProvider.instance().error(e);
 }
 
+function setInterval(cb: () => void, duration: number): number {
+    return ConsoleProvider.instance().setInterval(cb, duration);
+}
+
 function setConsole(console: Console): void {
     ConsoleProvider.setConsole(console);
 }
@@ -53,5 +57,6 @@ export = {
     promptBoolean,
     promptCSV,
     error,
+    setInterval,
     setConsole
 };

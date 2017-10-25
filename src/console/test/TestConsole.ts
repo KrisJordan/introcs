@@ -76,6 +76,10 @@ class TestConsole implements Console {
 
     }
 
+    setInterval(cb: () => void, duration: number): number {
+        return 0;
+    }
+
     clear(): void {
         let functionCall: Clear = new Clear();
         if (this._actual.log(functionCall) && this._testing) {

@@ -1,4 +1,4 @@
-let {print, image, clear, random, promptNumber, promptBoolean, promptString, promptCSV, error, setConsole} = require("./functions");
+let {print, image, clear, random, promptNumber, promptBoolean, promptString, promptCSV, error, setConsole, setInterval} = require("./functions");
 
 if (typeof window != "undefined") {
     window.print = print;
@@ -21,5 +21,6 @@ if (typeof window != "undefined") {
     global.clear = clear;
     global.random = random;
     global.setConsole = setConsole;
+    global.setInterval = setInterval;
 }
 

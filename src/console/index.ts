@@ -15,9 +15,7 @@ declare global {
 
     function random(floor: number, ceiling: number): number;
 
-    interface Function {
-        name: string;
-    }
+    function setInterval(cb: () => void, duration: number): number;
 }
 
 import "./globals";

@@ -96,6 +96,10 @@ class DOMConsole implements Console {
         return Math.floor(floor + delta);
     }
 
+    setInterval(cb: () => void, duration: number): number {
+        return window.setInterval(cb, duration);
+    }
+
     private getType(value: Printable): string {
         let type: string = "";
         if (typeof value === "string") {
