@@ -84,7 +84,6 @@ export default class SVG {
         for (let i: number = 0; i < board.children.length; i++) {
             let child: Element = board.children.item(i);
             if (child !== transG) {
-                console.log(child);
                 board.removeChild(child);
                 scaleG.appendChild(child);
             }
