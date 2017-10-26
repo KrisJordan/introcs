@@ -12,8 +12,6 @@ export default class Transform {
 
     static DEFAULT: Transform = new Transform();
 
-    private static DEG_TO_RAD: number = 0.0174533;
-
     private a: number = 1;
     private b: number = 0;
     private c: number = 0;
@@ -68,16 +66,16 @@ export default class Transform {
     }
 
     /**
-     * Rotates the Transform object by a degrees.
+     * Rotates the Transform object by an amount specified in radians.
      * 
      * @param a
      */
     rotate(a: number): Transform {
         let t: Transform = this.copy();
-        t.a = Math.cos(a * Transform.DEG_TO_RAD);
-        t.b = Math.sin(a * Transform.DEG_TO_RAD);
-        t.c = -Math.sin(a * Transform.DEG_TO_RAD);
-        t.d = Math.cos(a * Transform.DEG_TO_RAD);
+        t.a = Math.cos(a);
+        t.b = Math.sin(a);
+        t.c = -Math.sin(a);
+        t.d = Math.cos(a);
         return t;
     }
 
