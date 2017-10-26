@@ -1,30 +1,47 @@
-import Shape from "./Shape";
+import SVGElement from "./SVGElement";
 import Rectangle from "./Rectangle";
 import Circle from "./Circle";
 import Group from "./Group";
 import Text from "./Text";
 
+/**
+ * Wrapper class used to render introcs SVG Graphics classes to an
+ * SVG tag in an HTML document.
+ */
 export default class SVG {
     
-    element: Element;
+    private domElement: Element;
 
+    /**
+     * To construct an SVG object, you must provide the id attribute of an SVG tag
+     * located in the HTML of the web page.
+     * 
+     * @param id The id attribute of the SVG tag on a web page to render to.
+     */
     constructor(id: string) {
-        this.element = document.getElementById(id) as Element;
+        this.domElement = document.getElementById(id) as Element;
     }
 
-    render(shape: Shape): void {
+    /**
+     * Calling this method will clear and repaint the SVG tag with whatever argument is given.
+     * The elements drawn will automatically be scaled and repositioned to be centered and fill
+     * the SVG tag's space on the web page.
+     * 
+     * @param element The Group or Shape you want to render to the screen.
+     */
+    render(element: SVGElement): void {
         this.clearChildren();
-        this.paint(this.element, shape);
+        this.paint(this.domElement, element);
         this.postProcess();
     }
 
     private clearChildren(): void {
-        while (this.element.firstChild) {
-            this.element.removeChild(this.element.firstChild);
+        while (this.domElement.firstChild) {
+            this.domElement.removeChild(this.domElement.firstChild);
         }
     }
 
-    private paint(element: Element, shape: Shape): void {
+    private paint(element: Element, shape: SVGElement): void {
         if (shape instanceof Rectangle) {
             let r: SVGRectElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
             r.setAttribute("width", shape.width + "px");
@@ -50,7 +67,7 @@ export default class SVG {
             element.appendChild(c);
         } else if (shape instanceof Group) {
             let g: SVGGElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
-            shape.children.forEach((child: Shape) => {
+            shape.children.forEach((child: SVGElement) => {
                 this.paint(g, child);
             });
             g.setAttribute("transform", shape.transform.toMatrix());
@@ -60,6 +77,8 @@ export default class SVG {
             text.innerHTML = shape.text;
             text.setAttribute("x", String(shape.x));
             text.setAttribute("y", String(shape.y));
+            text.setAttribute("dx", String(shape.dx));
+            text.setAttribute("dy", String(shape.dy));
             text.setAttribute("font-family", shape.font.family);
             text.setAttribute("font-size", shape.font.size + "px");
             text.setAttribute("transform", shape.transform.toMatrix());
@@ -73,7 +92,7 @@ export default class SVG {
     }
 
     private postProcess(): void {
-        let board: SVGElement = this.element as SVGElement;
+        let board: Element = this.domElement as Element;
         
         let transG: SVGGElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
         board.appendChild(transG);

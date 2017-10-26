@@ -2,6 +2,11 @@ import Shape from "./Shape";
 import Font from "./Font";
 import Stroke from "./Stroke";
 
+/**
+ * For more information on the Text element's properties, please see:
+ * 
+ * https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
+ */
 export default class Text extends Shape {
     text: string;
     x: number = 0;

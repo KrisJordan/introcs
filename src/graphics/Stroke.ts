@@ -1,8 +1,27 @@
 import Color from "./Color";
 
+/**
+ * The styling to use in outlining a shape.
+ * 
+ * For more details on its individual properties, please see:
+ * 
+ * https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Fills_and_Strokes
+ * 
+ * Note that once a Stroke is constructed you cannot change its properties.
+ * To obtain a different Stroke style, simply construct a new Stroke object and
+ * assign it to a Shape's stroke property instead.
+ */
 export default class Stroke {
     
-    static DEFAULT: Stroke = new Stroke();
+    /**
+     * The default stroke is has a width of 1 unit and is black.
+     */
+    static DEFAULT: Stroke = new Stroke(Color.BLACK, 1);
+
+    /**
+     * Strokes are commonly undesireable. Use this constant property when
+     * you do not want a Shape to have an outline.
+     */
     static NONE: Stroke = new Stroke(Color.BLACK, 0);
 
     private _color: Color = Color.BLACK;
