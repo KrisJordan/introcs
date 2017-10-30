@@ -1,6 +1,6 @@
 {
   "name": "introcs",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Library to Support IntroCS",
   "main": "./index.js",
   "types": "./index",
