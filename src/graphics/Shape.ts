@@ -9,14 +9,31 @@ import Color from "./Color";
  */
 export default abstract class Shape extends SVGElement {
 
+    private _fill: Color = Color.WHITE;
+    
     /**
      * The Color to fill the element with.
      */
-    fill: Color = Color.WHITE;
+    get fill(): Color {
+        return this._fill;
+    }
+
+    set fill(fill: Color) {
+        this._fill = fill;
+        this.notify();
+    }
+
+    private _stroke: Stroke = Stroke.DEFAULT;
 
     /**
      * The Stroke object to outline the element with.
      */
-    stroke: Stroke = Stroke.DEFAULT;
+    get stroke(): Stroke {
+        return this._stroke;
+    }
+
+    set stroke(stroke: Stroke) {
+        this._stroke = stroke;
+    }
 
 }

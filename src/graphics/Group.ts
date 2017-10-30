@@ -11,7 +11,7 @@ import SVGElement from "./SVGElement";
  * Groups can be nested within other groups.
  */
 export default class Group extends SVGElement {
-    
+
     /**
      * A Group's children are the Shape objects added to the Group.
      */
@@ -29,6 +29,10 @@ export default class Group extends SVGElement {
         }
     }
 
+    toString(): string {
+        return `Group - ${this.children.map((o) => o.toString()).join(", ")}`;
+    }
+
     /**
      * Add a Shape objects to the Group's children.
      * 
@@ -36,6 +40,7 @@ export default class Group extends SVGElement {
      */
     add(child: SVGElement): void {
         this.children.push(child);
+        this.notify();
     }
 
     /**
@@ -49,6 +54,7 @@ export default class Group extends SVGElement {
                 return e !== child;
             }
         );
+        this.notify();
     }
 
 }

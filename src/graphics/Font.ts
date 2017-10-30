@@ -11,20 +11,28 @@ export default class Font {
      * The font family or "font face". Specific fonts
      * may not be available on all devices.
      */
-    family: string = "sans-serif";
+    private _family: string = "sans-serif";
+
+    get family(): string {
+        return this._family;
+    }
 
     /**
      * The size of the font.
      */
-    size: number = 16;
+    private _size: number = 16;
+
+    get size(): number {
+        return this._size;
+    }
 
     constructor(family?: string, size?: number) {
         if (family !== undefined) {
-            this.family = family;
+            this._family = family;
         }
 
         if (size !== undefined) {
-            this.size = size;
+            this._size = size;
         }
     }
 

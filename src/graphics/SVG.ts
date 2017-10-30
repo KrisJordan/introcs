@@ -1,4 +1,5 @@
 import SVGElement from "./SVGElement";
+import Shape from "./Shape";
 import Rectangle from "./Rectangle";
 import Circle from "./Circle";
 import Group from "./Group";
@@ -12,6 +13,14 @@ export default class SVG {
     
     private domElement: Element;
 
+    autoScale: boolean = true;
+
+    /**
+     * This state variable is used to avoid stacking up post-process calls
+     * when many observed elements' states change at once.
+     */
+    private _postDebounce: boolean = false;
+
     /**
      * To construct an SVG object, you must provide the id attribute of an SVG tag
      * located in the HTML of the web page.
@@ -20,6 +29,7 @@ export default class SVG {
      */
     constructor(id: string) {
         this.domElement = document.getElementById(id) as Element;
+        window.onresize = () => this.queuePostProcess();
     }
 
     /**
@@ -30,70 +40,156 @@ export default class SVG {
      * @param element The Group or Shape you want to render to the screen.
      */
     render(element: SVGElement): void {
-        this.clearChildren();
+        this.clearChildren(this.domElement);
         this.paint(this.domElement, element);
         this.postProcess();
     }
 
-    private clearChildren(): void {
-        while (this.domElement.firstChild) {
-            this.domElement.removeChild(this.domElement.firstChild);
+    private clearChildren(parent: Element): void {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
         }
     }
 
     private paint(element: Element, shape: SVGElement): void {
+        let shapeElement: Element = this.createElement(shape);
+        this.update(shapeElement, shape);
+        element.appendChild(shapeElement);
+    }
+
+    private update(shapeElement: Element, shape: SVGElement): void {
+        this.assignSVGAttributes(shape, shapeElement);
+
+        if (shape instanceof Shape) {
+            this.assignShapeAttributes(shape, shapeElement);
+        }
+
+        if (shape instanceof Group) {
+            this.paintGroup(shape, shapeElement);
+        }
+
         if (shape instanceof Rectangle) {
-            let r: SVGRectElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            r.setAttribute("width", shape.width + "px");
-            r.setAttribute("height", shape.height + "px");
-            r.setAttribute("x", String(shape.x));
-            r.setAttribute("y", String(shape.y));
-            r.setAttribute("stroke", shape.stroke.color.toRGB());
-            r.setAttribute("stroke-width", String(shape.stroke.width));
-            r.setAttribute("stroke-linecap", shape.stroke.linecap);
-            r.setAttribute("stroke-linejoin", shape.stroke.linejoin);
-            r.setAttribute("fill", shape.fill.toRGB());
-            r.setAttribute("transform", shape.transform.toMatrix());
-            element.appendChild(r);
+            this.assignRectangleAttributes(shape, shapeElement);
         } else if (shape instanceof Circle) {
-            let c: SVGCircleElement = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-            c.setAttribute("r", shape.r + "px");
-            c.setAttribute("cx", String(shape.cx));
-            c.setAttribute("cy", String(shape.cy));
-            c.setAttribute("stroke", shape.stroke.color.toRGB());
-            c.setAttribute("stroke-width", String(shape.stroke.width));
-            c.setAttribute("fill", shape.fill.toRGB());
-            c.setAttribute("transform", shape.transform.toMatrix());
-            element.appendChild(c);
-        } else if (shape instanceof Group) {
-            let g: SVGGElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
-            shape.children.forEach((child: SVGElement) => {
-                this.paint(g, child);
-            });
-            g.setAttribute("transform", shape.transform.toMatrix());
-            element.appendChild(g);
+            this.assignCircleAttributes(shape, shapeElement);
         } else if (shape instanceof Text) {
-            let text: SVGTextElement = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.innerHTML = shape.text;
-            text.setAttribute("x", String(shape.x));
-            text.setAttribute("y", String(shape.y));
-            text.setAttribute("dx", String(shape.dx));
-            text.setAttribute("dy", String(shape.dy));
-            text.setAttribute("font-family", shape.font.family);
-            text.setAttribute("font-size", shape.font.size + "px");
-            text.setAttribute("transform", shape.transform.toMatrix());
-            text.setAttribute("fill", shape.fill.toRGB());
-            text.setAttribute("stroke", shape.stroke.color.toRGB());
-            text.setAttribute("stroke-width", String(shape.stroke.width));
-            text.setAttribute("stroke-linecap", shape.stroke.linecap);
-            text.setAttribute("stroke-linejoin", shape.stroke.linejoin);
-            element.appendChild(text);
+            this.assignTextAttributes(shape, shapeElement);
+        }
+
+        shape.clearObservers();
+        shape.addObserver((shape) => {
+            this.update(shapeElement, shape);
+            this.queuePostProcess();
+        });
+    }
+
+    private createElement(shape: SVGElement): Element {
+        let tag: string = "";
+        if (shape instanceof Group) {
+            tag = "g";
+        } else if (shape instanceof Rectangle) {
+            tag = "rect";
+        } else if (shape instanceof Circle) {
+            tag = "circle";
+        } else if (shape instanceof Text) {
+            tag = "text";
+        }
+        return document.createElementNS("http://www.w3.org/2000/svg", tag);
+    }
+
+    private assignSVGAttributes(shape: SVGElement, e: Element): void {
+        let mouseable: SVGRectElement = e as SVGRectElement;
+        mouseable.onclick = shape.onclick.bind(shape);
+        mouseable.ondblclick = shape.ondblclick.bind(shape);
+        mouseable.onmousemove = shape.onmousemove.bind(shape);
+        mouseable.onmouseup = shape.onmouseup.bind(shape);
+        mouseable.onmousedown = shape.onmousedown.bind(shape);
+        mouseable.onmouseover = shape.onmouseover.bind(shape);
+        mouseable.onmouseout = shape.onmouseout.bind(shape);
+        e.setAttribute("transform", shape.transform.toMatrix());
+    }
+
+    private paintGroup(shape: Group, g: Element): void {
+        this.clearChildren(g);
+        shape.children.forEach((child: SVGElement) => {
+            this.paint(g, child);
+        });
+    }
+
+    private assignShapeAttributes(shape: Shape, e: Element): void {
+        e.setAttribute("fill", shape.fill.toRGB());
+        e.setAttribute("stroke", shape.stroke.color.toRGB());
+        e.setAttribute("stroke-width", String(shape.stroke.width));
+        e.setAttribute("stroke-linecap", shape.stroke.linecap);
+        e.setAttribute("stroke-linejoin", shape.stroke.linejoin);
+    }
+
+    private assignRectangleAttributes(shape: Rectangle, r: Element): void {
+        r.setAttribute("width", shape.width + "px");
+        r.setAttribute("height", shape.height + "px");
+        r.setAttribute("x", String(shape.x));
+        r.setAttribute("y", String(shape.y));
+    }
+
+    private assignCircleAttributes(shape: Circle, c: Element): void {
+        c.setAttribute("r", shape.r + "px");
+        c.setAttribute("cx", String(shape.cx));
+        c.setAttribute("cy", String(shape.cy));
+    }
+
+    private assignTextAttributes(shape: Text, text: Element): void {
+        text.innerHTML = shape.text;
+        text.setAttribute("x", String(shape.x));
+        text.setAttribute("y", String(shape.y));
+        text.setAttribute("dx", String(shape.dx));
+        text.setAttribute("dy", String(shape.dy));
+        text.setAttribute("font-family", shape.font.family);
+        text.setAttribute("font-size", shape.font.size + "px");
+    }
+
+    private queuePostProcess(): void {
+        if (this._postDebounce === false) {
+            this._postDebounce = true;
+            setTimeout(() => {
+                this.postProcess();
+            }, 0);
         }
     }
 
+    private _scale: number = 1.0;
+
     private postProcess(): void {
+        if (!this.autoScale) {
+            return;
+        }
+
+        this._postDebounce = false;
         let board: Element = this.domElement as Element;
         
+        if (board.firstChild === null) {
+            return;
+        }
+
+        let clientRect: ClientRect = board.getBoundingClientRect();
+        let width: number = clientRect.width * 0.9;
+        let height: number = clientRect.height * 0.9;
+    
+        let scaleBox: SVGRect = (board.firstChild as SVGGElement).getBBox();
+        let widthRatio: number = scaleBox.width / width;
+        let heightRatio: number = scaleBox.height / height;
+        let scale: number;
+        if (widthRatio > heightRatio) {
+            scale = 1 / widthRatio;
+        } else {
+            scale = 1 / heightRatio;
+        }
+
+        if (scale === this._scale) {
+            return;
+        } else {
+            this._scale = scale;
+        }
+
         let transG: SVGGElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
         board.appendChild(transG);
     
@@ -106,20 +202,6 @@ export default class SVG {
                 board.removeChild(child);
                 scaleG.appendChild(child);
             }
-        }
-
-        let clientRect: ClientRect = board.getBoundingClientRect();
-        let width: number = clientRect.width * 0.9;
-        let height: number = clientRect.height * 0.9;
-    
-        let scaleBox: SVGRect = scaleG.getBBox();
-        let widthRatio: number = scaleBox.width / width;
-        let heightRatio: number = scaleBox.height / height;
-        let scale: number;
-        if (widthRatio > heightRatio) {
-            scale = 1 / widthRatio;
-        } else {
-            scale = 1 / heightRatio;
         }
         scaleG.setAttribute("transform", `scale(${scale})`);
 

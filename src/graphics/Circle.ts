@@ -6,20 +6,9 @@ import Shape from "./Shape";
  */
 export default class Circle extends Shape {
 
-    /**
-     * The radius of the circle.
-     */
-    r: number;
-
-    /**
-     * The x-coordinate of the circle's center point.
-     */
-    cx: number = 0;
-
-    /**
-     * The y-coordinate of the circle's center point.
-     */
-    cy: number = 0;
+    private _r: number;
+    private _cx: number = 0;
+    private _cy: number = 0;
 
     /**
      * @param radius 
@@ -28,13 +17,52 @@ export default class Circle extends Shape {
      */
     constructor(radius: number, cx?: number, cy?: number) {
         super();
-        this.r = radius;
+        this._r = radius;
         if (cx) {
-            this.cx = cx;
+            this._cx = cx;
         }
         if (cy) {
-            this.cy = cy;
+            this._cy = cy;
         }
+    }
+
+    toString(): string {
+        return `Circle [r=${this.r} @ (${this.cx},${this.cy})]`;
+    }
+
+    /**
+     * The radius of the circle.
+     */
+    get r(): number {
+        return this._r;
+    }
+
+    set r(r: number) {
+        this._r = r;
+        this.notify();
+    }
+
+    
+    /**
+     * The x-coordinate of the circle's center point.
+     */
+    get cx(): number {
+        return this._cx;
+    }
+
+    set cx(cx: number) {
+        this._cx = cx;
+    }
+
+    /**
+     * The y-coordinate of the circle's center point.
+     */
+    get cy(): number {
+        return this._cy;
+    }
+
+    set cy(cy: number) {
+        this._cy = cy;
     }
     
 }

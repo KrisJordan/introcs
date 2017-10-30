@@ -8,6 +8,7 @@ import Stroke from "./Stroke";
  * https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
  */
 export default class Text extends Shape {
+
     text: string;
     x: number = 0;
     y: number = 0;
@@ -22,5 +23,9 @@ export default class Text extends Shape {
         super();
         this.stroke = Stroke.NONE;
         this.text = text;
+    }
+
+    toString(): string {
+        return `Text - "${this.text}"`;
     }
 }
