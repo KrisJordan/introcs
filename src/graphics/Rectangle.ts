@@ -58,10 +58,8 @@ export default class Rectangle extends Shape {
      * The position of the x-coordinate of the top-left corner of the Rectangle.
      */
     public set x(x: number) {
-        if (x > 0) {
-            this._x = x;
-            this.notify();
-        }
+        this._x = x;
+        this.notify();
     }
 
     public get x(): number {
@@ -76,10 +74,8 @@ export default class Rectangle extends Shape {
     }
 
     public set y(y: number) {
-        if (y > 0) {
-            this._y = y;
-            this.notify();
-        }
+        this._y = y;
+        this.notify();
     }
 
     

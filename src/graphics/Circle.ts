@@ -38,8 +38,10 @@ export default class Circle extends Shape {
     }
 
     set r(r: number) {
-        this._r = r;
-        this.notify();
+        if (r > 0) {
+            this._r = r;
+            this.notify();
+        }
     }
 
     
