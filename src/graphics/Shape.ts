@@ -34,6 +34,7 @@ export default abstract class Shape extends SVGElement {
 
     set stroke(stroke: Stroke) {
         this._stroke = stroke;
+        this.notify();
     }
 
 }

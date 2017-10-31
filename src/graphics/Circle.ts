@@ -54,6 +54,7 @@ export default class Circle extends Shape {
 
     set cx(cx: number) {
         this._cx = cx;
+        this.notify();
     }
 
     /**
@@ -65,6 +66,7 @@ export default class Circle extends Shape {
 
     set cy(cy: number) {
         this._cy = cy;
+        this.notify();
     }
     
 }
