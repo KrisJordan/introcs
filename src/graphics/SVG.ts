@@ -4,6 +4,7 @@ import Rectangle from "./Rectangle";
 import Circle from "./Circle";
 import Group from "./Group";
 import Text from "./Text";
+import Line from "./Line";
 
 /**
  * Wrapper class used to render introcs SVG Graphics classes to an
@@ -74,6 +75,8 @@ export default class SVG {
             this.assignCircleAttributes(shape, shapeElement);
         } else if (shape instanceof Text) {
             this.assignTextAttributes(shape, shapeElement);
+        } else if (shape instanceof Line) {
+            this.assignLineAttributes(shape, shapeElement);
         }
 
         shape.clearObservers();
@@ -93,6 +96,10 @@ export default class SVG {
             tag = "circle";
         } else if (shape instanceof Text) {
             tag = "text";
+        } else if (shape instanceof Line) {
+            tag = "line";
+        } else {
+            throw new Error("Unsupported SVGElement type.");
         }
         return document.createElementNS("http://www.w3.org/2000/svg", tag);
     }
@@ -135,6 +142,13 @@ export default class SVG {
         c.setAttribute("r", shape.r + "px");
         c.setAttribute("cx", String(shape.cx));
         c.setAttribute("cy", String(shape.cy));
+    }
+
+    private assignLineAttributes(shape: Line, l: Element): void {
+        l.setAttribute("x1", String(shape.x1));
+        l.setAttribute("y1", String(shape.y1));
+        l.setAttribute("x2", String(shape.x2));
+        l.setAttribute("y2", String(shape.y2));
     }
 
     private assignTextAttributes(shape: Text, text: Element): void {
