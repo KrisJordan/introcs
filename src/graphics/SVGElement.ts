@@ -47,6 +47,7 @@ export default abstract class SVGElement implements Observable<SVGElement> {
 
     set transform(t: Transform) {
         this._transform = t;
+        this.notify();
     }
 
 }

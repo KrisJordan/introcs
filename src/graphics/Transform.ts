@@ -39,9 +39,9 @@ export default class Transform {
      */
     translate(x: number, y?: number): Transform {
         let t: Transform = this.copy();
-        t.e = x;
+        t.e += x;
         if (y) {
-            t.f = y;
+            t.f += y;
         }
         return t;
     }
@@ -56,11 +56,11 @@ export default class Transform {
      */
     scale(x: number, y?: number): Transform {
         let t: Transform = this.copy();
-        t.a = x;
+        t.a *= x;
         if (y === undefined) {
-            t.d = x;
+            t.d *= x;
         } else {
-            t.d = y;
+            t.d *= y;
         }
         return t;
     }
@@ -72,10 +72,17 @@ export default class Transform {
      */
     rotate(a: number): Transform {
         let t: Transform = this.copy();
-        t.a = Math.cos(a);
-        t.b = Math.sin(a);
-        t.c = -Math.sin(a);
-        t.d = Math.cos(a);
+
+        let aBase: number = 0;
+        if (t.a !== 0) {
+            aBase = Math.acos(t.a);
+        }
+
+        let aHat: number = aBase + a;
+        t.a = Math.cos(aHat);
+        t.b = Math.sin(aHat);
+        t.c = -Math.sin(aHat);
+        t.d = Math.cos(aHat);
         return t;
     }
 

@@ -5,13 +5,15 @@ import Circle from "./Circle";
 import Group from "./Group";
 import Text from "./Text";
 import Line from "./Line";
+import Ellipse from "./Ellipse";
+import Path from "./Path";
 
 /**
  * Wrapper class used to render introcs SVG Graphics classes to an
  * SVG tag in an HTML document.
  */
 export default class SVG {
-    
+
     private domElement: Element;
 
     autoScale: boolean = true;
@@ -77,6 +79,10 @@ export default class SVG {
             this.assignTextAttributes(shape, shapeElement);
         } else if (shape instanceof Line) {
             this.assignLineAttributes(shape, shapeElement);
+        } else if (shape instanceof Ellipse) {
+            this.assignEllipseAttributes(shape, shapeElement);
+        } else if (shape instanceof Path) {
+            this.assignPathAttributes(shape, shapeElement);
         }
 
         shape.clearObservers();
@@ -98,6 +104,10 @@ export default class SVG {
             tag = "text";
         } else if (shape instanceof Line) {
             tag = "line";
+        } else if (shape instanceof Ellipse) {
+            tag = "ellipse";
+        } else if (shape instanceof Path) {
+            tag = "path";
         } else {
             throw new Error("Unsupported SVGElement type.");
         }
@@ -124,11 +134,28 @@ export default class SVG {
     }
 
     private assignShapeAttributes(shape: Shape, e: Element): void {
-        e.setAttribute("fill", shape.fill.toRGB());
-        e.setAttribute("stroke", shape.stroke.color.toRGB());
-        e.setAttribute("stroke-width", String(shape.stroke.width));
-        e.setAttribute("stroke-linecap", shape.stroke.linecap);
-        e.setAttribute("stroke-linejoin", shape.stroke.linejoin);
+        if (shape.opacity !== 1) {
+            e.setAttribute("opacity", String(shape.opacity));
+        }
+
+        if (shape.fillOpacity > 0) {
+            e.setAttribute("fill", shape.fill.toRGB());
+        }
+
+        if (shape.fillOpacity !== 1) {
+            e.setAttribute("fill-opacity", String(shape.fillOpacity));
+        }
+
+        if (shape.strokeOpacity > 0) {
+            e.setAttribute("stroke", shape.stroke.color.toRGB());
+            e.setAttribute("stroke-width", String(shape.stroke.width));
+            e.setAttribute("stroke-linecap", shape.stroke.linecap);
+            e.setAttribute("stroke-linejoin", shape.stroke.linejoin);
+        }
+
+        if (shape.strokeOpacity !== 1) {
+            e.setAttribute("stroke-opacity", String(shape.strokeOpacity));
+        }
     }
 
     private assignRectangleAttributes(shape: Rectangle, r: Element): void {
@@ -155,10 +182,24 @@ export default class SVG {
         text.innerHTML = shape.text;
         text.setAttribute("x", String(shape.x));
         text.setAttribute("y", String(shape.y));
-        text.setAttribute("dx", String(shape.dx));
-        text.setAttribute("dy", String(shape.dy));
         text.setAttribute("font-family", shape.font.family);
         text.setAttribute("font-size", shape.font.size + "px");
+        text.setAttribute("text-anchor", shape.textAnchor);
+        if (shape.textLength !== undefined) {
+            text.setAttribute("textLength", String(shape.textLength));
+            text.setAttribute("lengthAdjust", shape.lengthAdjust);
+        }
+    }
+
+    private assignEllipseAttributes(shape: Ellipse, ellipse: Element): void {
+        ellipse.setAttribute("cx", String(shape.cx));
+        ellipse.setAttribute("cy", String(shape.cy));
+        ellipse.setAttribute("rx", String(shape.rx));
+        ellipse.setAttribute("ry", String(shape.ry));
+    }
+
+    private assignPathAttributes(shape: Path, path: Element): void {
+        path.setAttribute("d", shape.toString());
     }
 
     private queuePostProcess(): void {
@@ -179,7 +220,7 @@ export default class SVG {
 
         this._postDebounce = false;
         let board: Element = this.domElement as Element;
-        
+
         if (board.firstChild === null) {
             return;
         }
@@ -187,7 +228,7 @@ export default class SVG {
         let clientRect: ClientRect = board.getBoundingClientRect();
         let width: number = clientRect.width * 0.9;
         let height: number = clientRect.height * 0.9;
-    
+
         let scaleBox: SVGRect = (board.firstChild as SVGGElement).getBBox();
         let widthRatio: number = scaleBox.width / width;
         let heightRatio: number = scaleBox.height / height;
@@ -204,12 +245,16 @@ export default class SVG {
             this._scale = scale;
         }
 
+        if (scale === Infinity) {
+            return;
+        }
+
         let transG: SVGGElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
         board.appendChild(transG);
-    
+
         let scaleG: SVGGElement = document.createElementNS("http://www.w3.org/2000/svg", "g");
         transG.appendChild(scaleG);
-        
+
         for (let i: number = 0; i < board.children.length; i++) {
             let child: Element = board.children.item(i);
             if (child !== transG) {

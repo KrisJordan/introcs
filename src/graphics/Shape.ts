@@ -9,8 +9,26 @@ import Color from "./Color";
  */
 export default abstract class Shape extends SVGElement {
 
+    private _opacity: number = 1.0;
+
     private _fill: Color = Color.WHITE;
-    
+    private _fillOpacity: number = 1.0;
+
+    private _stroke: Stroke = Stroke.DEFAULT;
+    private _strokeOpacity: number = 1.0;
+
+    /**
+     * The opacity of the entire Shape.
+     */
+    public get opacity(): number {
+        return this._opacity;
+    }
+
+    public set opacity(value: number) {
+        this._opacity = value;
+        this.notify();
+    }
+
     /**
      * The Color to fill the element with.
      */
@@ -23,7 +41,17 @@ export default abstract class Shape extends SVGElement {
         this.notify();
     }
 
-    private _stroke: Stroke = Stroke.DEFAULT;
+    /**
+     * The opacity of the just the fill Color.
+     */
+    get fillOpacity(): number {
+        return this._fillOpacity;
+    }
+
+    set fillOpacity(value: number) {
+        this._fillOpacity = value;
+        this.notify();
+    }
 
     /**
      * The Stroke object to outline the element with.
@@ -34,6 +62,18 @@ export default abstract class Shape extends SVGElement {
 
     set stroke(stroke: Stroke) {
         this._stroke = stroke;
+        this.notify();
+    }
+
+    /**
+     * The opacity of just the Stroke.
+     */
+    get strokeOpacity(): number {
+        return this._strokeOpacity;
+    }
+
+    set strokeOpacity(value: number) {
+        this._strokeOpacity = value;
         this.notify();
     }
 

@@ -1,12 +1,12 @@
 {
   "name": "introcs",
-  "version": "0.3.8",
+  "version": "0.4.0",
   "description": "Library to Support IntroCS",
   "main": "./index.js",
   "types": "./index",
   "scripts": {
     "build": "cp ./src/console/style.css ./console/ && tsc -p ./src --outDir ./",
-    "docs": "typedoc --theme minimal --name \"IntroCS Graphics\" --mode file --out docs/ --module commonjs --target ES5 --ignoreCompilerErrors --excludeExternals --excludePrivate --exclude index* --exclude *Font* --exclude Text.ts src/graphics"
+    "docs": "typedoc --theme minimal --name \"IntroCS Graphics\" --mode file --out docs/ --module commonjs --target ES5 --ignoreCompilerErrors --excludeExternals --excludePrivate src/graphics"
   },
   "author": "Kris Jordan",
   "license": "AGPL-3.0",

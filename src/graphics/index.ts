@@ -12,6 +12,15 @@ import Circle from "./Circle";
 import Rectangle from "./Rectangle";
 import Line from "./Line";
 import Text from "./Text";
+import Path from "./Path";
+
+import PathSegment from "./path/PathSegment";
+import PointPathSegment from "./path/PointPathSegment";
+import MoveToPathSegment from "./path/MoveToPathSegment";
+import LineToPathSegment from "./path/LineToPathSegment";
+import QuadraticCurveToPathSegment from "./path/QuadraticCurveToPathSegment";
+import CubicCurveToPathSegment from "./path/CubicCurveToPathSegment";
+import ClosePathSegment from "./path/ClosePathSegment";
 
 export {
 
@@ -31,6 +40,16 @@ export {
     Rectangle,
     Circle,
     Line,
-    Text
+    Text,
+    Path,
+
+    // Path Segments
+    PathSegment,
+    PointPathSegment,
+    MoveToPathSegment,
+    LineToPathSegment,
+    QuadraticCurveToPathSegment,
+    CubicCurveToPathSegment,
+    ClosePathSegment
     
 };
