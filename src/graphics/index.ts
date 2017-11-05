@@ -9,6 +9,7 @@ import SVGElement from "./SVGElement";
 import Shape from "./Shape";
 import Group from "./Group";
 import Circle from "./Circle";
+import Ellipse from "./Ellipse";
 import Rectangle from "./Rectangle";
 import Line from "./Line";
 import Text from "./Text";
@@ -39,6 +40,7 @@ export {
     Shape,
     Rectangle,
     Circle,
+    Ellipse,
     Line,
     Text,
     Path,
