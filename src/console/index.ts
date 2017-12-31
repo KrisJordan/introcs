@@ -1,9 +1,9 @@
+/// <reference path="../globals.d.ts" />
+
 import "./style.css";
-import Printable from "./Printable";
 import Classname from "./Classname";
 
 declare global {
-    function print(value: Printable): void;
     function image(url: string): void;
     
     function promptNumber(prompt: string, cb: (value: number) => void): void;
@@ -14,8 +14,6 @@ declare global {
     function clear(): void;
 
     function random(floor: number, ceiling: number): number;
-
-    function setInterval(cb: () => void, duration: number): number;
 }
 
 import "./globals";

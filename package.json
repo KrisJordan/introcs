@@ -5,7 +5,7 @@
   "main": "./index.js",
   "types": "./index",
   "scripts": {
-    "build": "cp ./src/console/style.css ./console/ && tsc -p ./src --outDir ./",
+    "build": "cp ./src/console/style.css ./console/ && tsc",
     "docs": "typedoc --theme minimal --name \"IntroCS Graphics\" --mode file --out docs/ --module commonjs --target ES5 --ignoreCompilerErrors --excludeExternals --excludePrivate src/graphics"
   },
   "author": "Kris Jordan",

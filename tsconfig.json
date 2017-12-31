@@ -1,8 +1,10 @@
 {
     "compilerOptions": {
-        "outDir": "./lib/",
+        "rootDir": "./src/",
+        "outDir": "./",
         "sourceMap": true,
         "module": "commonjs",
+        "lib": ["es2015", "dom"],
         "target": "es5",
         "jsx": "react",
         "allowJs": true,
@@ -14,7 +16,16 @@
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": true,
         "experimentalDecorators": true,
-        "declaration": true,
         "removeComments": true
-    }
+    },
+    "exclude": [
+        "node_modules",
+        "lib",
+        "graphics",
+        "index.js",
+        "index.d.ts",
+        "console",
+        "events",
+        "docs"
+    ]
 }
