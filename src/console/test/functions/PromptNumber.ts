@@ -3,13 +3,11 @@ import FunctionCall from "./FunctionCall";
 class PromptNumber extends FunctionCall {
     
     protected _prompt: string;
-    protected _cb: (value: number) => void;
     protected _response: number;
 
-    constructor(prompt: string, cb: (value: number) => void, response?: number) {
+    constructor(prompt: string, response?: number) {
         super();
         this._prompt = prompt;
-        this._cb = cb;
         if (response) {
             this._response = response;
         }

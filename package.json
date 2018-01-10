@@ -1,9 +1,9 @@
 {
   "name": "introcs",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Library to Support IntroCS",
   "main": "./index.js",
-  "types": "./index",
+  "types": "./index.d.ts",
   "scripts": {
     "build": "cp ./src/console/style.css ./console/ && tsc",
     "docs": "typedoc --theme minimal --name \"IntroCS Graphics\" --mode file --out docs/ --module commonjs --target ES5 --ignoreCompilerErrors --excludeExternals --excludePrivate src/graphics"

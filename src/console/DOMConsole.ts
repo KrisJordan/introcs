@@ -47,21 +47,29 @@ class DOMConsole implements Console {
         );
     }
 
-    promptNumber(prompt: string, cb: (value: number) => void): void {
+    promptNumber(prompt: string): Promise<number> {
         let parser = (value: string) => parseFloat(value);
         let validate = (value: string) => !isNaN(parseFloat(value));
-        this.ask(prompt, "number", validate, parser, cb);
+        return new Promise<number>((resolve, reject) => {
+            this.ask(prompt, "number", validate, parser, (value) => {
+                resolve(value as number);
+            });
+        });
     }
 
-    promptString(prompt: string, cb: (value: string) => void): void {
+    promptString(prompt: string): Promise<string> {
         let parser = (value: string) => { return value; };
         let validator = (value: string) => {
             return value !== "";
         };
-        this.ask(prompt, "string", validator, parser, cb);
+        return new Promise<string>((resolve, reject) => {
+            this.ask(prompt, "string", validator, parser, (value) => {
+                resolve(value as string);
+            });
+        });
     }
 
-    promptBoolean(prompt: string, cb: (value: boolean) => void): void {
+    promptBoolean(prompt: string): Promise<boolean> {
         let regex = /^true|false$/i;
         let parser = (value: string) => { 
             if (value.toLowerCase() === "true") {
@@ -71,12 +79,20 @@ class DOMConsole implements Console {
             }
         };
         let validator = (value: string) => regex.test(value);
-        this.ask(prompt, "boolean", validator, parser, cb);
+        return new Promise<boolean>((resolve, reject) => {
+            this.ask(prompt, "boolean", validator, parser, (value) => {
+                resolve(value as boolean);
+            });
+        });
     }
 
-    promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void {
-        let control = new CSVInput(prompt, classname, cb);
-        this.append(control.dom);
+    promptCSV<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
+        return new Promise((resolve, reject) => {
+            let control = new CSVInput(prompt, classname, (value) => {
+                resolve(value);
+            });
+            this.append(control.dom);
+        });
     }
 
     private ask(prompt: string, type: string, validator: (value: primitive) => boolean, parser: (value: string) => primitive, cb: (value: primitive) => void): void {

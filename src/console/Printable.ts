@@ -4,7 +4,7 @@ export interface Stringable {
 
 export type primitive = string | number | boolean;
 
-export type PrintOne = null | primitive | Stringable;
+export type PrintOne = undefined | null | primitive | Stringable;
 
 export type Printable = PrintOne | PrintOne[];
 

@@ -11,20 +11,20 @@ function image(url: string): void {
     ConsoleProvider.instance().image(url);
 }
 
-function promptNumber(prompt: string, cb: (value: number) => void): void {
-    ConsoleProvider.instance().promptNumber(prompt, cb);
+function promptNumber(prompt: string): Promise<number> {
+    return ConsoleProvider.instance().promptNumber(prompt);
 }
 
-function promptString(prompt: string, cb: (value: string) => void): void {
-    ConsoleProvider.instance().promptString(prompt, cb);
+function promptString(prompt: string): Promise<string> {
+    return ConsoleProvider.instance().promptString(prompt);
 }
 
-function promptBoolean(prompt: string, cb: (value: boolean) => void): void {
-    ConsoleProvider.instance().promptBoolean(prompt, cb);
+function promptBoolean(prompt: string): Promise<boolean> {
+    return ConsoleProvider.instance().promptBoolean(prompt);
 }
 
-function promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void {
-    ConsoleProvider.instance().promptCSV(prompt, classname, cb);
+function promptCSV<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
+    return ConsoleProvider.instance().promptCSV(prompt, classname);
 }
 
 function clear(): void {
@@ -47,7 +47,7 @@ function setConsole(console: Console): void {
     ConsoleProvider.setConsole(console);
 }
 
-export = {
+export {
     print,
     image,
     clear,

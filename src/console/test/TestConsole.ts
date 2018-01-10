@@ -51,29 +51,32 @@ class TestConsole implements Console {
         }
     }
 
-    promptNumber(prompt: string, cb: (value: number) => void): void {
-        let functionCall: PromptNumber = new PromptNumber(prompt, cb);
+    promptNumber(prompt: string): Promise<number> {
+        let functionCall: PromptNumber = new PromptNumber(prompt);
         if (this._actual.log(functionCall) && this._testing) {
             this._expected.test(functionCall);
         }
+        return Promise.resolve(0);
     }
 
-    promptString(prompt: string, cb: (value: string) => void): void {
-        let functionCall: PromptString = new PromptString(prompt, cb);
+    promptString(prompt: string): Promise<string> {
+        let functionCall: PromptString = new PromptString(prompt);
         if (this._actual.log(functionCall) && this._testing) {
             this._expected.test(functionCall);
         }
+        return Promise.resolve("")
     }
 
-    promptBoolean(prompt: string, cb: (value: boolean) => void): void {
-        let functionCall: PromptBoolean = new PromptBoolean(prompt, cb);
+    promptBoolean(prompt: string): Promise<boolean> {
+        let functionCall: PromptBoolean = new PromptBoolean(prompt);
         if (this._actual.log(functionCall) && this._testing) {
             this._expected.test(functionCall);
         }
+        return Promise.resolve(true);
     }
 
-    promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void {
-
+    promptCSV<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
+        return Promise.resolve([]);
     }
 
     setInterval(cb: () => void, duration: number): number {

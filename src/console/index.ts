@@ -1,19 +1,31 @@
-/// <reference path="../globals.d.ts" />
-
 import "./style.css";
-import Classname from "./Classname";
 
-declare global {
-    function image(url: string): void;
+import { 
+    print,
+    setInterval,
+    image,
     
-    function promptNumber(prompt: string, cb: (value: number) => void): void;
-    function promptString(prompt: string, cb: (value: string) => void): void;
-    function promptBoolean(prompt: string, cb: (value: boolean) => void): void;
-    function promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void;
+    promptNumber,
+    promptString,
+    promptBoolean,
+    promptCSV,
 
-    function clear(): void;
+    clear,
 
-    function random(floor: number, ceiling: number): number;
+    random
+} from "./functions";
+
+export {
+    print,
+    setInterval,
+    image,
+    
+    promptNumber,
+    promptString,
+    promptBoolean,
+    promptCSV,
+
+    clear,
+
+    random
 }
-
-import "./globals";

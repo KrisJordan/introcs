@@ -4,10 +4,10 @@ import Classname from "./Classname";
 interface Console {
     print(s: Printable): void;
     image(url: string): void;
-    promptNumber(prompt: string, cb: (value: number) => void): void;
-    promptString(prompt: string, cb: (value: string) => void): void;
-    promptBoolean(prompt: string, cb: (value: boolean) => void): void;
-    promptCSV<T>(prompt: string, classname: Classname<T>, cb: (value: T[]) => void): void;
+    promptNumber(prompt: string): Promise<number>;
+    promptString(prompt: string): Promise<string>;
+    promptBoolean(prompt: string): Promise<boolean>;
+    promptCSV<T>(prompt: string, classname: Classname<T>): Promise<T[]>;
     clear(): void;
     random(floor: number, ceiling: number): number;
     setInterval(cb: () => void, duration: number): number;
