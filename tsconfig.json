@@ -27,6 +27,7 @@
         "index.d.ts",
         "console",
         "events",
-        "docs"
+        "docs",
+        "list"
     ]
 }

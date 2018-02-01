@@ -50,11 +50,18 @@ class DOMConsole implements Console {
     promptNumber(prompt: string): Promise<number> {
         let parser = (value: string) => parseFloat(value);
         let validate = (value: string) => !isNaN(parseFloat(value));
-        return new Promise<number>((resolve, reject) => {
+        let promise = new Promise<number>((resolve, reject) => {
             this.ask(prompt, "number", validate, parser, (value) => {
                 resolve(value as number);
             });
         });
+
+        promise = promise.catch(err => {
+            console.log("CATCH");
+            this.error(err);
+        }) as Promise<number>;
+
+        return promise;
     }
 
     promptString(prompt: string): Promise<string> {
@@ -62,11 +69,18 @@ class DOMConsole implements Console {
         let validator = (value: string) => {
             return value !== "";
         };
-        return new Promise<string>((resolve, reject) => {
+
+        let promise = new Promise<string>((resolve, reject) => {
             this.ask(prompt, "string", validator, parser, (value) => {
                 resolve(value as string);
             });
         });
+
+        promise.catch(err => {
+            this.error(err);
+        });
+
+        return promise;
     }
 
     promptBoolean(prompt: string): Promise<boolean> {
