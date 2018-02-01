@@ -30,7 +30,7 @@ export let first = <T> (list: List<T>): T => {
 
 export let rest = <T> (list: List<T>): List<T> => {
     if (list === null) {
-        throw new Error("Cannot call function `first` on null.");
+        throw new Error("Cannot call function `rest` on null.");
     } else {
         return list.next;
     }
