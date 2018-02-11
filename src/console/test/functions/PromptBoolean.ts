@@ -14,15 +14,24 @@ class PromptBoolean extends FunctionCall {
     }
 
     toString(): string {
-        return "promptBoolean(\"" + this._prompt + "\", <callback function>)";
-    }
-
-    print(): void {
-
+        if (this._response !== undefined) {
+            return "promptBoolean(\"" + this._prompt + "\") ... Testing with: " + this._response;
+        } else {
+            return "promptBoolean(\"" + this._prompt + "\")";
+        }
     }
 
     test(actual: FunctionCall): void {
 
+    }
+
+
+    get prompt(): string {
+        return this._prompt;
+    }
+
+    get response(): boolean {
+        return this._response;
     }
 
 }

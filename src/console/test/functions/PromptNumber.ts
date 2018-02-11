@@ -1,4 +1,5 @@
 import FunctionCall from "./FunctionCall";
+import FunctionCallMatchError from "./FunctionCallMatchError";
 
 class PromptNumber extends FunctionCall {
     
@@ -14,15 +15,31 @@ class PromptNumber extends FunctionCall {
     }
 
     toString(): string {
-        return "promptNumber(\"" + this._prompt + "\", <callback function>)";
-    }
-
-    print(): void {
-
+        if (this._response !== undefined) {
+            return "promptNumber(\"" + this._prompt + "\") ... Testing with: " + this._response;
+        } else {
+            return "promptNumber(\"" + this._prompt + "\")";
+        }
     }
 
     test(actual: FunctionCall): void {
+        if (actual instanceof PromptNumber) {
+            if (actual._prompt.toLowerCase().includes(this._prompt.toLowerCase())) {
+                return; // Short-circuit
+            }
+        }
 
+        throw new FunctionCallMatchError(this, actual);
+        
+        
+    }
+
+    get prompt(): string {
+        return this._prompt;
+    }
+
+    get response(): number {
+        return this._response;
     }
 
 }

@@ -1,8 +1,13 @@
 import FunctionCall from "./FunctionCall";
 
-class FunctionCallMatchError extends Error {
+class FunctionCallMatchError {
+
+    message: string;
+    error: Error;
+
     constructor(expected: FunctionCall, actual: FunctionCall) {
-        super("Expected: " + expected.toString() + " \nActual: " + actual.toString());
+        this.message = "Expected: " + expected.toString() + " \nActual: " + actual.toString();
+        this.error = new Error();
     }
 }
 

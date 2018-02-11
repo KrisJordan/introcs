@@ -1,5 +1,5 @@
 import FunctionCall from "./functions/FunctionCall";
-import OutOfCallsException from "./OutOfCallsException";
+import OutOfCallsException from "./OutOfCallsError";
 
 export interface Predicate<T> {
     (f: T): boolean;
@@ -58,6 +58,10 @@ class Session {
 
     contains(test: Predicate<FunctionCall>): boolean {
         return this._calls.some(test);
+    }
+
+    toString(): string {
+        return this._calls.map(f => f.toString()).join("\n");
     }
 
 }

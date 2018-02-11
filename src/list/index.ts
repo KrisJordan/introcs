@@ -40,10 +40,10 @@ export let cons = <T> (value: T, list: List<T> = null): List<T> => {
     return new Node(value, list);
 };
 
-export let listOf = <T> (...values: T[]): List<T> => {
+export let listify = <T> (...values: T[]): List<T> => {
     if (values.length === 0) {
         return null;
     } else {
-        return cons(values[0], listOf.apply(null, values.slice(1)));
+        return cons(values[0], listify.apply(null, values.slice(1)));
     }
 };

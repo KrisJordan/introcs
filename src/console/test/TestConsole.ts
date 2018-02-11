@@ -51,28 +51,43 @@ class TestConsole implements Console {
         }
     }
 
-    promptNumber(prompt: string): Promise<number> {
-        let functionCall: PromptNumber = new PromptNumber(prompt);
+    promptNumber(prompt: string, response?: number): Promise<number> {
+        let functionCall: PromptNumber = new PromptNumber(prompt, response);
         if (this._actual.log(functionCall) && this._testing) {
-            this._expected.test(functionCall);
+            let expected = this._expected.test(functionCall) as PromptNumber;
+            return Promise.resolve(expected.response);
         }
-        return Promise.resolve(0);
+        if (response) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.resolve(0);
+        }
     }
 
-    promptString(prompt: string): Promise<string> {
-        let functionCall: PromptString = new PromptString(prompt);
+    promptString(prompt: string, response?: string): Promise<string> {
+        let functionCall: PromptString = new PromptString(prompt, response);
         if (this._actual.log(functionCall) && this._testing) {
-            this._expected.test(functionCall);
+            let expected = this._expected.test(functionCall) as PromptString;
+            return Promise.resolve(expected.response);
         }
-        return Promise.resolve("")
+        if (response) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.resolve("");
+        }
     }
 
-    promptBoolean(prompt: string): Promise<boolean> {
-        let functionCall: PromptBoolean = new PromptBoolean(prompt);
+    promptBoolean(prompt: string, response?: boolean): Promise<boolean> {
+        let functionCall: PromptBoolean = new PromptBoolean(prompt, response);
         if (this._actual.log(functionCall) && this._testing) {
-            this._expected.test(functionCall);
+            let expected = this._expected.test(functionCall) as PromptBoolean;
+            return Promise.resolve(expected.response);
         }
-        return Promise.resolve(true);
+        if (response) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.resolve(false);
+        }
     }
 
     promptCSV<T>(prompt: string, classname: Classname<T>): Promise<T[]> {

@@ -2,27 +2,35 @@ import FunctionCall from "./FunctionCall";
 
 class PromptString extends FunctionCall {
     
-        protected _prompt: string;
-        protected _response: string;
-    
-        constructor(prompt: string, response?: string) {
-            super();
-            this._prompt = prompt;
-            if (response) {
-                this._response = response;
-            }
-        }
+    protected _prompt: string;
+    protected _response: string;
 
-    toString(): string {
-        return "promptString(\"" + this._prompt + "\", <callback function>)";
+    constructor(prompt: string, response?: string) {
+        super();
+        this._prompt = prompt;
+        if (response) {
+            this._response = response;
+        }
     }
 
-    print(): void {
-
+    toString(): string {
+        if (this._response !== undefined) {
+            return "promptString(\"" + this._prompt + "\") ... Testing with: " + this._response;
+        } else {
+            return "promptString(\"" + this._prompt + "\")";
+        }
     }
 
     test(actual: FunctionCall): void {
 
+    }
+
+    get prompt(): string {
+        return this._prompt;
+    }
+
+    get response(): string {
+        return this._response;
     }
 
 }

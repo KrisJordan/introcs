@@ -18,7 +18,7 @@ import {
 
 } from "./functions";
 
-if (typeof window != undefined) {
+if (typeof window !== "undefined") {
     window.addEventListener("error", (e) => {
         error(e.error);
     });
