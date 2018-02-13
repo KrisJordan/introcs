@@ -8,6 +8,7 @@ import PromptBoolean from "./functions/PromptBoolean";
 import Image from "./functions/Image";
 import Clear from "./functions/Clear";
 import Classname from "../Classname";
+import * as list from "../../list";
 
 class TestConsole implements Console {
 
@@ -90,8 +91,12 @@ class TestConsole implements Console {
         }
     }
 
-    promptCSV<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
+    csvToArray<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
         return Promise.resolve([]);
+    }
+
+    csvToList<T>(prompt: string, classname: Classname<T>): Promise<list.List<T>> {
+        return Promise.resolve(null);
     }
 
     setInterval(cb: () => void, duration: number): number {

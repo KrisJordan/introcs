@@ -2,6 +2,7 @@ import ConsoleProvider from "./ConsoleProvider";
 import Console from "./Console";
 import Printable from "./Printable";
 import Classname from "./Classname";
+import { List } from "../list";
 
 function print(s: Printable): void {
     ConsoleProvider.instance().print(s);
@@ -23,8 +24,12 @@ function promptBoolean(prompt: string): Promise<boolean> {
     return ConsoleProvider.instance().promptBoolean(prompt);
 }
 
-function promptCSV<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
-    return ConsoleProvider.instance().promptCSV(prompt, classname);
+function csvToArray<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
+    return ConsoleProvider.instance().csvToArray(prompt, classname);
+}
+
+function csvToList<T>(prompt: string, classname: Classname<T>): Promise<List<T>> {
+    return ConsoleProvider.instance().csvToList(prompt, classname);
 }
 
 function clear(): void {
@@ -55,7 +60,8 @@ export {
     promptNumber,
     promptString,
     promptBoolean,
-    promptCSV,
+    csvToArray,
+    csvToList,
     error,
     setInterval,
     setConsole

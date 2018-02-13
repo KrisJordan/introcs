@@ -15,6 +15,48 @@ body {
     border-bottom: 1px solid whitesmoke;
 }
 
+.listTable {
+    border-collapse: collapse;
+}
+
+.listTable tr.first td {
+    font-weight: bold;
+}
+
+.listTable th {
+    border: 1px solid whitesmoke;
+    background: #eee;
+    padding: 8px;
+}
+
+.listTable td {
+    border: 1px solid whitesmoke;
+    padding: 4px;
+    font-size: 16px;
+    margin: 0;
+}
+
+.listTable td.number {
+    text-align: right;
+    font-family: "Consolas", "Monaco", monospace;
+}
+
+.listTable td.boolean {
+    text-align: center;
+    font-family: "Consolas", "Monaco", monospace;
+}
+
+.listTable td.string {
+    text-align: left;
+}
+
+.listTable td.null {
+    text-align: center;
+    font-family: "Consolas", "Monaco", monospace;
+    background: #eee;
+    color: #333;
+}
+
 /** ERROR */
 .error .message {
     font-size: 20px;

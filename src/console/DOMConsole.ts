@@ -1,10 +1,11 @@
 import Console from "./Console";
-import {div, img} from "./DOM";
+import {div, img, table, tr, td, thead, th, tbody} from "./DOM";
 import Printable from "./Printable";
 import TextInput from "./TextInput";
 import CSVInput from "./CSVInput";
 import primitive from "./Printable";
 import Classname from "./Classname";
+import * as list from "../list/index";
 
 class DOMConsole implements Console {
 
@@ -30,12 +31,65 @@ class DOMConsole implements Console {
     }
 
     print(value: Printable): void {
-        this.append(
-            div("print", [
-                div("value", "" + value),
-                div("type", this.getType(value))
+        if (!(value instanceof list.Node)) {
+            this.append(
+                div("print", [
+                    div("value", "" + value),
+                    div("type", this.getType(value))
+                ])
+            );
+        } else {
+            this.append(
+                div("print", [
+                    this.listToTable(value),
+                    div("type", this.getType(value))
+                ])
+            );
+        }
+    }
+
+    private listToTable(data: list.Node<any>): Node {
+        let head: any[] = [];
+        let body: any[] = [];
+        let cursor: list.List<any> = data;
+        let first: boolean = true;
+        if (typeof data.value == "object") {
+
+            let cols: any[] = [];
+            for (let property in cursor.value) {
+                cols.push(th("listData", property));
+            }
+            head.push(tr("listRow", cols));
+            
+            do {
+                let cols: any[] = [];
+                for (let property in cursor.value) {
+                    cols.push(td("listValue " + (this.getType(cursor.value[property])), cursor.value[property]));
+                }
+                body.push(tr("listRow" + (first ? " first" : ""), cols));
+                first = false;
+                cursor = list.rest(cursor);
+            } while (cursor !== null);
+        } else {
+            do {
+                body.push(
+                    tr("listRow" + (first ? " first" : ""), [
+                        td("listValue " + (this.getType(cursor.value)), cursor.value)
+                    ])
+                );
+                first = false;
+                cursor = list.rest(cursor);
+            } while (cursor !== null);
+        }
+        body.push(
+            tr("listRow", [
+                td("listValue null", "null")
             ])
         );
+        return table("listTable", [
+            thead("listHead", head),
+            tbody("listBody", body)
+        ]);
     }
 
     image(url: string): void {
@@ -57,7 +111,6 @@ class DOMConsole implements Console {
         });
 
         promise = promise.catch(err => {
-            console.log("CATCH");
             this.error(err);
         }) as Promise<number>;
 
@@ -100,13 +153,17 @@ class DOMConsole implements Console {
         });
     }
 
-    promptCSV<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
+    csvToArray<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
         return new Promise((resolve, reject) => {
             let control = new CSVInput(prompt, classname, (value) => {
                 resolve(value);
             });
             this.append(control.dom);
         });
+    }
+
+    async csvToList<T>(prompt: string, classname: Classname<T>): Promise<list.List<T>> {
+        return list.listify.apply(null, await this.csvToArray(prompt, classname));
     }
 
     private ask(prompt: string, type: string, validator: (value: primitive) => boolean, parser: (value: string) => primitive, cb: (value: primitive) => void): void {
@@ -148,6 +205,8 @@ class DOMConsole implements Console {
             } else {
                 type = "[]";
             }
+        } else if (value instanceof list.Node) {
+            return "List<" + this.getType(value.value) + ">";
         } else if(typeof value == "object") {
             type = "object";
             if (value.constructor.name) {

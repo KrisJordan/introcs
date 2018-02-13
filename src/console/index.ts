@@ -8,7 +8,9 @@ import {
     promptNumber,
     promptString,
     promptBoolean,
-    promptCSV,
+    
+    csvToArray,
+    csvToList,
 
     clear,
 
@@ -42,7 +44,9 @@ export {
     promptNumber,
     promptString,
     promptBoolean,
-    promptCSV,
+
+    csvToList,
+    csvToArray,
 
     clear,
 

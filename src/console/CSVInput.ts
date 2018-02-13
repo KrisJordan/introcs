@@ -132,34 +132,32 @@ class CSVInput<T> {
         let piece: string = "";
         for (let i: number = 0; i < row.length; i++) {
             let char: string = row[i];
-            if (char === "," && !quotes) {
-                if (start !== i) {
-                    columns.push(piece);
-                }
-                start = i + 1;
-                piece = "";
-            } else if (char === "\"") {
-                if (!quotes) {
-                    start = i + 1;
-                    quotes = true;
-                } else {
-                    let nextChar: string = row[i + 1];
+            
+            if (quotes) {
+                if (char === "\"") {
+                    let nextChar = row[i + 1];
                     if (nextChar) {
                         if (nextChar === "\"") {
                             piece += "\"";
                             i++;
                         } else if (nextChar === ",") {
-                            columns.push(piece);
                             quotes = false;
-                            piece = "";
-                            start = i + 1;
-                        } else {
-                            throw new Error("Unknown encoding of CSV");
                         }
                     }
+                } else {
+                    piece += char;
                 }
             } else {
-                piece += char;
+                if (char === ",") {
+                    columns.push(piece);
+                    start = i + 1;
+                    piece = "";
+                } else if (char === "\"") {
+                    quotes = true;
+                    start = i + 1;
+                } else {
+                    piece += char;
+                }
             }
         }
         columns.push(row.substr(start));
