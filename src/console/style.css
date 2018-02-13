@@ -15,7 +15,7 @@ body {
     border-bottom: 1px solid whitesmoke;
 }
 
-.listTable {
+.listTable, .objectTable {
     border-collapse: collapse;
 }
 
@@ -23,13 +23,13 @@ body {
     font-weight: bold;
 }
 
-.listTable th {
+.listTable th, .objectTable td.objectProperty {
     border: 1px solid whitesmoke;
     background: #eee;
     padding: 8px;
 }
 
-.listTable td {
+.listTable td, .objectTable td {
     border: 1px solid whitesmoke;
     padding: 4px;
     font-size: 16px;

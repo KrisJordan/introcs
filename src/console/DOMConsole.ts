@@ -31,17 +31,24 @@ class DOMConsole implements Console {
     }
 
     print(value: Printable): void {
-        if (!(value instanceof list.Node)) {
+        if (value instanceof list.Node) {
             this.append(
                 div("print", [
-                    div("value", "" + value),
+                    this.listToTable(value),
+                    div("type", this.getType(value))
+                ])
+            );
+        } else if (value !== null && !Array.isArray(value) && typeof value == "object" && value.toString() === "[object Object]") {
+            this.append(
+                div("print", [
+                    this.objectToTable(value),
                     div("type", this.getType(value))
                 ])
             );
         } else {
             this.append(
                 div("print", [
-                    this.listToTable(value),
+                    div("value", "" + value),
                     div("type", this.getType(value))
                 ])
             );
@@ -90,6 +97,19 @@ class DOMConsole implements Console {
             thead("listHead", head),
             tbody("listBody", body)
         ]);
+    }
+
+    private objectToTable(data: object): Node {
+        let props: any[] = [];
+        for (let property in data) {
+            props.push(
+                tr("objectRow", [
+                    td("objectProperty", property),
+                    td("objectValue", data[property])
+                ])
+            );
+        }
+        return table("objectTable", props);
     }
 
     image(url: string): void {
