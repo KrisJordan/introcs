@@ -24,14 +24,10 @@ class PromptNumber extends FunctionCall {
 
     test(actual: FunctionCall): void {
         if (actual instanceof PromptNumber) {
-            if (actual._prompt.toLowerCase().includes(this._prompt.toLowerCase())) {
-                return; // Short-circuit
-            }
+            return;
         }
 
         throw new FunctionCallMatchError(this, actual);
-        
-        
     }
 
     get prompt(): string {

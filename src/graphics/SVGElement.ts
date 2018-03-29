@@ -12,14 +12,14 @@ export default abstract class SVGElement implements Observable<SVGElement> {
     private _observers: Observer<SVGElement>[] = [];
     private _transform: Transform = Transform.DEFAULT;
 
-    onclick(event: MouseEvent): void {}
-    ondblclick(event: MouseEvent): void {}
+    onclick = (event: MouseEvent): void => {}
+    ondblclick = (event: MouseEvent): void => {}
 
-    onmousemove(event: MouseEvent): void {}
-    onmousedown(event: MouseEvent): void {}
-    onmouseup(event: MouseEvent): void {}
-    onmouseover(event: MouseEvent): void {}
-    onmouseout(event: MouseEvent): void {}
+    onmousemove = (event: MouseEvent): void => {}
+    onmousedown = (event: MouseEvent): void => {}
+    onmouseup = (event: MouseEvent): void => {}
+    onmouseover = (event: MouseEvent): void => {}
+    onmouseout = (event: MouseEvent): void => {}
     
     addObserver(observer: Observer<SVGElement>): void {
         this._observers.push(observer);

@@ -211,8 +211,6 @@ export default class SVG {
         }
     }
 
-    private _scale: number = 1.0;
-
     private postProcess(): void {
         if (!this.autoScale) {
             return;
@@ -237,12 +235,6 @@ export default class SVG {
             scale = 1 / widthRatio;
         } else {
             scale = 1 / heightRatio;
-        }
-
-        if (scale === this._scale) {
-            return;
-        } else {
-            this._scale = scale;
         }
 
         if (scale === Infinity) {

@@ -1,5 +1,5 @@
 import FunctionCall from "./functions/FunctionCall";
-import OutOfCallsException from "./OutOfCallsError";
+import OutOfCallsError from "./OutOfCallsError";
 
 export interface Predicate<T> {
     (f: T): boolean;
@@ -52,7 +52,7 @@ class Session {
             expected.test(actual);
             return expected;
         } else {
-            throw new OutOfCallsException(actual);
+            throw new OutOfCallsError(actual);
         }
     }
 

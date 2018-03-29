@@ -1,4 +1,5 @@
 import FunctionCall from "./FunctionCall";
+import FunctionCallMatchError from "./FunctionCallMatchError";
 
 class PromptBoolean extends FunctionCall {
 
@@ -22,9 +23,11 @@ class PromptBoolean extends FunctionCall {
     }
 
     test(actual: FunctionCall): void {
-
+        if (actual instanceof PromptBoolean) {
+            return;
+        }
+        throw new FunctionCallMatchError(this, actual);
     }
-
 
     get prompt(): string {
         return this._prompt;
