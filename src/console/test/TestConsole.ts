@@ -5,6 +5,7 @@ import Print from "./functions/Print";
 import PromptString from "./functions/PromptString";
 import PromptNumber from "./functions/PromptNumber";
 import PromptBoolean from "./functions/PromptBoolean";
+import CSVToArray from "./functions/CSVToArray";
 import Image from "./functions/Image";
 import Clear from "./functions/Clear";
 import Classname from "../Classname";
@@ -91,8 +92,17 @@ class TestConsole implements Console {
         }
     }
 
-    csvToArray<T>(prompt: string, classname: Classname<T>): Promise<T[]> {
-        return Promise.resolve([]);
+    csvToArray<T>(prompt: string, classname: Classname<T>, response?: T[]): Promise<T[]> {
+        let functionCall: CSVToArray<T> = new CSVToArray<T>(prompt, response);
+        if (this._actual.log(functionCall) && this._testing) {
+            let expected = this._expected.test(functionCall) as CSVToArray<T>;
+            return Promise.resolve(expected.response);
+        }
+        if (response) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.resolve([]);
+        }
     }
 
     csvToList<T>(prompt: string, classname: Classname<T>): Promise<list.List<T>> {
