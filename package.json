@@ -1,11 +1,11 @@
 {
   "name": "introcs",
-  "version": "0.7.7",
+  "version": "0.8.1",
   "description": "Library to Support IntroCS",
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "build": "cp ./src/console/style.css ./console/ && tsc",
+    "build": "cp ./src/console/style.css ./console/ && cp ./src/turtle/style.css ./turtle/ && tsc",
     "docs": "typedoc --theme minimal --name \"IntroCS Graphics\" --mode file --out docs/ --module commonjs --target ES5 --ignoreCompilerErrors --excludeExternals --excludePrivate src/graphics"
   },
   "author": "Kris Jordan",

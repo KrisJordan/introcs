@@ -6,9 +6,14 @@ import { TurnCommand } from "./commands/TurnCommand";
 import { MoveToCommand } from "./commands/MoveToCommand";
 import { TurnToCommand } from "./commands/TurnToCommand";
 import { SpeedCommand } from "./commands/SpeedCommand";
+import { BackwardCommand } from "./commands/BackwardCommand";
 
 export let forward = (amount: number): void => { 
     TurtleProvider.instance().emit(new ForwardCommand(amount));
+};
+
+export let backward = (amount: number): void => {
+    TurtleProvider.instance().emit(new BackwardCommand(amount));
 };
 
 export let left = (angle: number): void => {

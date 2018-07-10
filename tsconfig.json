@@ -28,6 +28,7 @@
         "console",
         "events",
         "docs",
-        "list"
+        "list",
+        "turtle"
     ]
 }
