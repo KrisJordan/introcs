@@ -7,6 +7,7 @@ import { MoveToCommand } from "./commands/MoveToCommand";
 import { TurnToCommand } from "./commands/TurnToCommand";
 import { SpeedCommand } from "./commands/SpeedCommand";
 import { BackwardCommand } from "./commands/BackwardCommand";
+import { StrokeCommand } from "./commands/StrokeCommand";
 
 export let forward = (amount: number): void => { 
     TurtleProvider.instance().emit(new ForwardCommand(amount));
@@ -31,6 +32,10 @@ export let moveTo = (x: number, y: number): void => {
 export let turnTo = (angle: number): void => {
     TurtleProvider.instance().emit(new TurnToCommand(angle));
 }
+
+export let setStroke = (stroke: string): void => {
+    TurtleProvider.instance().emit(new StrokeCommand(stroke));
+};
 
 export let setSpeed = (speed: number): void => {
     TurtleProvider.instance().emit(new SpeedCommand(speed));

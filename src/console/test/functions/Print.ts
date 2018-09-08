@@ -30,6 +30,10 @@ class Print<T> extends FunctionCall {
         let castActual: Print<T> = <Print<T>> actual;
         if (this._value === castActual._value) {
             return; // Short-circuit
+        } else if (typeof this._value === "string" && typeof castActual._value === "string") {
+            if (this._value.toLowerCase() === castActual._value.toLowerCase()) {
+                return; // Short-circuit
+            }
         }
         throw new FunctionCallMatchError(this, actual);
     }

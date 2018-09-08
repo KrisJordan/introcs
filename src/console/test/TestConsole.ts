@@ -10,6 +10,7 @@ import Image from "./functions/Image";
 import Clear from "./functions/Clear";
 import Classname from "../Classname";
 import * as list from "../../list";
+import OutOfCallsError from "./OutOfCallsError";
 
 class TestConsole implements Console {
 
@@ -62,7 +63,7 @@ class TestConsole implements Console {
         if (response) {
             return Promise.resolve(response);
         } else {
-            return Promise.resolve(0);
+            return Promise.reject(new OutOfCallsError(functionCall));
         }
     }
 
@@ -75,7 +76,7 @@ class TestConsole implements Console {
         if (response) {
             return Promise.resolve(response);
         } else {
-            return Promise.resolve("");
+            return Promise.reject(new OutOfCallsError(functionCall));
         }
     }
 
@@ -88,7 +89,7 @@ class TestConsole implements Console {
         if (response) {
             return Promise.resolve(response);
         } else {
-            return Promise.resolve(false);
+            return Promise.reject(new OutOfCallsError(functionCall));
         }
     }
 
@@ -101,7 +102,7 @@ class TestConsole implements Console {
         if (response) {
             return Promise.resolve(response);
         } else {
-            return Promise.resolve([]);
+            throw new OutOfCallsError(functionCall);
         }
     }
 
